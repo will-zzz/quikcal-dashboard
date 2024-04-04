@@ -12,11 +12,11 @@ export default function App() {
       </div>
       {/* Body */}
       <div className="flex flex-col items-center p-4 bg-gray-300 h-[calc(100vh-64px)]">
-        <div className="flex items-center justify-center w-3/4 border-2 border-red-500 h-[75vh]">
+        <div className="flex items-center justify-center w-3/4 h-[75vh]">
           <BarGraph />
         </div>
 
-        <div className="flex flex-wrap justify-center h-[25vh] overflow-auto border-2 border-red-500">
+        <div className="flex flex-wrap justify-center h-[25vh] overflow-auto">
           <CompanyCard />
           <CompanyCard />
           <CompanyCard />
