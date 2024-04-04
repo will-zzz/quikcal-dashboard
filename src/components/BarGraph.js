@@ -24,6 +24,10 @@ export default function BarGraph() {
       label: "Deliveries",
       data: [
         {
+          day: "Sunday",
+          number: 2,
+        },
+        {
           day: "Monday",
           number: 4,
         },
@@ -46,10 +50,6 @@ export default function BarGraph() {
         {
           day: "Saturday",
           number: 6,
-        },
-        {
-          day: "Sunday",
-          number: 2,
         },
       ],
     },
