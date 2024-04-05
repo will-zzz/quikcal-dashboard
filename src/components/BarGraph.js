@@ -2,7 +2,9 @@ import React from "react";
 import useDemoConfig from "./useDemoConfig.tsx";
 import { AxisOptions, Chart } from "react-charts";
 
-export default function BarGraph() {
+export default function BarGraph() { 
+
+
   const primaryAxis = React.useMemo(
     () => ({
       getValue: (datum) => datum.day,
@@ -19,41 +21,28 @@ export default function BarGraph() {
     []
   );
 
-  const data = [
-    {
-      label: "Deliveries",
-      data: [
-        {
-          day: "Monday",
-          number: 4,
-        },
-        {
-          day: "Tuesday",
-          number: 7,
-        },
-        {
-          day: "Wednesday",
-          number: 8,
-        },
-        {
-          day: "Thursday",
-          number: 3,
-        },
-        {
-          day: "Friday",
-          number: 5,
-        },
-        {
-          day: "Saturday",
-          number: 6,
-        },
-        {
-          day: "Sunday",
-          number: 2,
-        },
-      ],
-    },
-  ];
+  const getData = async (dateInput) => { //fetch the json data 
+    const response = await fetch('/data.json')
+    const deliveries = await response.json()
+
+  const date = new Date(inputDate); //date is now parsed 
+  const dateSunday = new Date(date)
+  dateSunday.setDate(date.getDate() - date.getDay()) //this gets last Sunday's date 
+  const dateSaturday = new Date(dateSunday); 
+  dateSaturday.setDate(dateSaturday.getDate() + 6) //add to Saturday (end of week)
+
+  //array to return with 7 places, filled with 0s 
+  const weeklyEventCount = new Array(7).fill(0)
+
+  deliveries.forEach(delivery => {
+    const deliveryDate = new Date(delivery.date)
+    if (deliveryDate >= dateSunday && deliveryDate <= dateSaturday) {
+      const dayNumber = deliveryDate.getDay() 
+      weeklyEventCount[dayNumber] += 1 
+    }
+  })
+  return weeklyEventCount
+  }
 
   return (
     <Chart
