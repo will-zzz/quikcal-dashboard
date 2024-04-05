@@ -2,26 +2,8 @@ import React from "react";
 import useDemoConfig from "./useDemoConfig.tsx";
 import { AxisOptions, Chart } from "react-charts";
 
-export default function BarGraph() { 
 
-
-  const primaryAxis = React.useMemo(
-    () => ({
-      getValue: (datum) => datum.day,
-    }),
-    []
-  );
-
-  const secondaryAxes = React.useMemo(
-    () => [
-      {
-        getValue: (datum) => datum.number,
-      },
-    ],
-    []
-  );
-
-  const getData = async (dateInput) => { //fetch the json data 
+const getData = async (inputDate) => { //fetch the json data 
     const response = await fetch('/data.json')
     const deliveries = await response.json()
 
@@ -41,8 +23,28 @@ export default function BarGraph() {
       weeklyEventCount[dayNumber] += 1 
     }
   })
-  return weeklyEventCount
+  return weeklyEventCount.map((deliveriesNum, daynum) => ({
+    dayOfWeek:['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][daynum],
+    totalDeliveries: deliveriesNum
+  }))
   }
+  
+export default function BarGraph() { 
+  const primaryAxis = React.useMemo(
+    () => ({
+      getValue: (datum) => datum.day,
+    }),
+    []
+  );
+
+  const secondaryAxes = React.useMemo(
+    () => [
+      {
+        getValue: (datum) => datum.number,
+      },
+    ],
+    []
+  );
 
   return (
     <Chart
