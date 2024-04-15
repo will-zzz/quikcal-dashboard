@@ -55,7 +55,8 @@ export default function BarGraph() {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const data = await getData(new Date());
+      // const data = await getData(new Date());
+      const data = await getData(new Date("2024-03-26"));
       const formattedData = [
         {
           label: "Deliveries",
