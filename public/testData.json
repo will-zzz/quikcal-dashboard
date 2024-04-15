@@ -1,0 +1,66 @@
+[
+    {
+        "id": "4cvei7jqahacpr0j1tuec8raps",
+        "name": "OPI",
+        "description": "Test 3pm",
+        "date": "2024-03-26",
+        "start": "15:00:00.000",
+        "end": "16:00:00.000"
+    },
+    {
+        "id": "20n8t0fk47i3vho2c7tke44d3k",
+        "name": "ABL",
+        "description": "Test event @ 9 : 00am\n\npipes and stuff",
+        "date": "2024-03-29",
+        "start": "09:00:00.000",
+        "end": "11:45:00.000"
+    },
+    {
+        "id": "8mtogen59v7bfeunpavi0qi34k",
+        "name": "Power Design",
+        "description": "llam Cordent P3",
+        "date": "2024-03-24",
+        "start": "15:00:00.000",
+        "end": "16:00:00.000"
+    },
+    {
+        "id": "d6q4fjhoieqocb1hplj0d8c7ic",
+        "name": "Manganaro",
+        "description": "8 am Podiun . Ins",
+        "date": "2024-03-25",
+        "start": "08:00:00.000",
+        "end": "09:00:00.000"
+    },
+    {
+        "id": "s9vo97d60l8b1dgujt6us1qvb4",
+        "name": "OPI",
+        "description": "AM 10 L23 Frames",
+        "date": "2024-03-25",
+        "start": "10:00:00.000",
+        "end": "11:00:00.000"
+    },
+    {
+        "id": "318ae4f4rn213ng4f1ovv8rcao",
+        "name": "Power Design",
+        "description": "11am Cordent P3",
+        "date": "2024-03-24",
+        "start": "11:00:00.000",
+        "end": "12:00:00.000"
+    },
+    {
+        "id": "stedpqteoa587f58mq5hfotrt8",
+        "name": "Manganaro",
+        "description": "1 PM Studs",
+        "date": "2024-03-28",
+        "start": "13:00:00.000",
+        "end": "14:00:00.000"
+    },
+    {
+        "id": "h7jjmbib58gogg6oh4jf4f0eb0",
+        "name": "JCI",
+        "description": "7 AM Risers",
+        "date": "2024-03-28",
+        "start": "07:00:00.000",
+        "end": "08:00:00.000"
+    }
+]
