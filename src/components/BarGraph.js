@@ -108,14 +108,6 @@ export default function BarGraph() {
     []
   );
 
-
-  // Async function that when press "e" console logs getData (only 1 e press)
-  window.addEventListener("keydown", async (e) => {
-    if (e.key === "e") {
-      console.log(await getData(new Date()));
-    }
-  });
-
   return (
     <Chart
       options={{
