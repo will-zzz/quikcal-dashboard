@@ -1,12 +1,16 @@
 import React from "react";
 import { useState } from "react";
-import useDemoConfig from "./useDemoConfig.tsx";
-import { AxisOptions, Chart } from "react-charts";
-import { get } from "firebase/database";
+import { Chart } from "react-charts";
 
-const getData = async (inputDate) => {
-  const response = await fetch("testData.json");
-  const deliveries = await response.json();
+const testDay = new Date("2024-03-26");
+
+const formatWeek = async (inputDate, resp) => {
+  if (!resp) {
+    return [];
+  }
+
+  const deliveries = resp;
+  console.log("Deliveries", deliveries);
 
   const date = new Date(inputDate);
   date.setHours(0, 0, 0, 0);
@@ -23,6 +27,7 @@ const getData = async (inputDate) => {
     deliveryDate.setHours(0, 0, 0, 0);
 
     if (deliveryDate >= dateSunday && deliveryDate <= dateSaturday) {
+      console.log("Day: " + delivery.date, delivery.name);
       const dayNumber = deliveryDate.getDay();
       weeklyEventCount[dayNumber] += 1;
     }
@@ -42,7 +47,8 @@ const getData = async (inputDate) => {
   }));
 };
 
-export default function BarGraph({ day }) {
+export default function BarGraph({ day, response }) {
+  console.log("BarGraph response", response);
   const [data, setData] = useState([
     {
       label: "Deliveries",
@@ -56,9 +62,12 @@ export default function BarGraph({ day }) {
   ]);
 
   React.useEffect(() => {
+    if (!response) {
+      return;
+    }
     const fetchData = async () => {
       // const data = await getData(new Date());
-      const data = await getData(day);
+      const data = await formatWeek(testDay, response);
       const formattedData = [
         {
           label: "Deliveries",
@@ -97,7 +106,7 @@ export default function BarGraph({ day }) {
       setData(formattedData);
     };
     fetchData();
-  }, []);
+  }, [response]);
 
   const primaryAxis = React.useMemo(
     () => ({

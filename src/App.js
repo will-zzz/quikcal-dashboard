@@ -3,12 +3,40 @@ import BarGraph from "./components/BarGraph";
 import CompanyCard from "./components/CompanyCard";
 import { useState, useEffect } from "react";
 
+const test_id = "65c26685a0055c6f9938cd31";
+
 export default function App() {
-  const [day, setDay] = useState("");
+  const [day, setDay] = useState(null);
+  const [response, setResponse] = useState(null);
 
   useEffect(() => {
     setDay(new Date("2024-03-26"));
+    loadApiData(test_id);
+    console.log("hiiii" + response);
   }, []);
+
+  const loadApiData = async (projectId) => {
+    const url = "http://quikcal.com:3002/events/list";
+    const data = {
+      projectId: projectId,
+    };
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setResponse(data);
+        console.log("Fetched response", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
   return (
     <div>
@@ -37,7 +65,7 @@ export default function App() {
           </svg>
           {/* Using this weird styling here because idk the graph library is being weird */}
           <div style={{ height: "95%", width: "85%" }}>
-            <BarGraph day={day} />
+            <BarGraph day={day} response={response} />
           </div>
           {/* Right arrow button */}
           <svg
