@@ -9,33 +9,40 @@ const getData = async (inputDate) => {
   const deliveries = await response.json();
 
   const date = new Date(inputDate);
-  date.setHours(0, 0, 0, 0); 
+  date.setHours(0, 0, 0, 0);
   const dateSunday = new Date(date);
-  dateSunday.setDate(date.getDate() - date.getDay()); 
+  dateSunday.setDate(date.getDate() - date.getDay());
 
   const dateSaturday = new Date(dateSunday);
-  dateSaturday.setDate(dateSunday.getDate() + 6); 
+  dateSaturday.setDate(dateSunday.getDate() + 6);
 
   const weeklyEventCount = new Array(7).fill(0);
 
   deliveries.forEach((delivery) => {
-    const deliveryDate = new Date(delivery.date + "T" + delivery.start); 
-    deliveryDate.setHours(0, 0, 0, 0); 
+    const deliveryDate = new Date(delivery.date + "T" + delivery.start);
+    deliveryDate.setHours(0, 0, 0, 0);
 
     if (deliveryDate >= dateSunday && deliveryDate <= dateSaturday) {
-      const dayNumber = deliveryDate.getDay(); 
+      const dayNumber = deliveryDate.getDay();
       weeklyEventCount[dayNumber] += 1;
     }
   });
 
   return weeklyEventCount.map((deliveriesNum, daynum) => ({
-    dayOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][daynum],
+    dayOfWeek: [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ][daynum],
     totalDeliveries: deliveriesNum,
   }));
 };
 
-
-export default function BarGraph() {
+export default function BarGraph({ day }) {
   const [data, setData] = useState([
     {
       label: "Deliveries",
@@ -51,7 +58,7 @@ export default function BarGraph() {
   React.useEffect(() => {
     const fetchData = async () => {
       // const data = await getData(new Date());
-      const data = await getData(new Date("2024-03-26"));
+      const data = await getData(day);
       const formattedData = [
         {
           label: "Deliveries",

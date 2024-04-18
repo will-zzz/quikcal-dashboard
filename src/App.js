@@ -1,8 +1,15 @@
 import Logo from "./images/Logo.png";
 import BarGraph from "./components/BarGraph";
 import CompanyCard from "./components/CompanyCard";
+import { useState, useEffect } from "react";
 
 export default function App() {
+  const [day, setDay] = useState("");
+
+  useEffect(() => {
+    setDay(new Date("2024-03-26"));
+  }, []);
+
   return (
     <div>
       {/* Navbar: Logo and title */}
@@ -30,7 +37,7 @@ export default function App() {
           </svg>
           {/* Using this weird styling here because idk the graph library is being weird */}
           <div style={{ height: "95%", width: "85%" }}>
-            <BarGraph />
+            <BarGraph day={day} />
           </div>
           {/* Right arrow button */}
           <svg
