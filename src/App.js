@@ -2,6 +2,7 @@ import Logo from "./images/Logo.png";
 import BarGraph from "./components/BarGraph";
 import CompanyCard from "./components/CompanyCard";
 import { useState, useEffect } from "react";
+import DayInfo from "./components/DayInfo";
 
 const test_id = "65c26685a0055c6f9938cd31";
 
@@ -84,43 +85,7 @@ export default function App() {
           </svg>
         </div>
 
-        <div className="flex flex-wrap justify-center w-3/4 h-[35vh] overflow-auto bg-white rounded-2xl shadow-lg mt-4 pt-1">
-          <CompanyCard
-            name="Company Name"
-            time="12:30 PM - 1:30 PM"
-            info="Info about the delivery."
-          />
-          <CompanyCard
-            name="Company Name"
-            time="12:30 PM - 1:30 PM"
-            info="Info about the delivery."
-          />
-          <CompanyCard
-            name="Company Name"
-            time="12:30 PM - 1:30 PM"
-            info="Info about the delivery."
-          />
-          <CompanyCard
-            name="Company Name"
-            time="12:30 PM - 1:30 PM"
-            info="Info about the delivery."
-          />
-          <CompanyCard
-            name="Company Name"
-            time="12:30 PM - 1:30 PM"
-            info="Info about the delivery."
-          />
-          <CompanyCard
-            name="Company Name"
-            time="12:30 PM - 1:30 PM"
-            info="Info about the delivery."
-          />
-          <CompanyCard
-            name="Company Name"
-            time="12:30 PM - 1:30 PM"
-            info="Info about the delivery."
-          />
-        </div>
+        <DayInfo response={response} />
       </div>
     </div>
   );

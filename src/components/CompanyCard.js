@@ -8,7 +8,7 @@ const CompanyCard = ({ name, time, info }) => {
   };
 
   return (
-    <div className="flex flex-col w-full h-auto bg-gray-200 mx-2 my-1 px-4 rounded-lg">
+    <div className="flex flex-col w-full bg-gray-200 my-1 px-4 rounded-lg h-auto">
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center">
           <h2 className="text-xl font-bold text-gray-500">{name}</h2>
