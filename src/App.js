@@ -17,7 +17,9 @@ export default function App() {
   useEffect(() => {
     const testDay = new Date("2024-03-26");
     setDay(testDay);
-    loadApiData(test_id);
+    if (!response) {
+      loadApiData(test_id);
+    }
     setDates(testDay);
     getNumDeliveries();
   }, [response]);
@@ -56,30 +58,42 @@ export default function App() {
     console.log("Saturday", dateSaturday);
     setRawSunday(dateSunday);
     setRawSaturday(dateSaturday);
-    const formattedSunday = dateSunday.getMonth() + 1 + "/" + dateSunday.getDate() + "/" + dateSunday.getFullYear();
-    const formattedSaturday = dateSaturday.getMonth() + 1 + "/" + dateSaturday.getDate() + "/" + dateSaturday.getFullYear();
+    const formattedSunday =
+      dateSunday.getMonth() +
+      1 +
+      "/" +
+      dateSunday.getDate() +
+      "/" +
+      dateSunday.getFullYear();
+    const formattedSaturday =
+      dateSaturday.getMonth() +
+      1 +
+      "/" +
+      dateSaturday.getDate() +
+      "/" +
+      dateSaturday.getFullYear();
     setStartDate(formattedSunday);
     setEndDate(formattedSaturday);
     return;
-  }
+  };
 
   const getNumDeliveries = () => {
     let count = 0;
-    if (!response){
+    if (!response) {
       return;
     }
     response.forEach((delivery) => {
       const deliveryDate = new Date(delivery.date + "T" + delivery.start);
       deliveryDate.setHours(0, 0, 0, 0);
-  
+
       if (deliveryDate >= rawSunday && deliveryDate <= rawSaturday) {
         count += 1;
-        console.log("Found one! Count: " + count)
+        console.log("Found one! Count: " + count);
       }
     });
     setNumDeliveries(count);
     return;
-  }
+  };
 
   return (
     <div>
@@ -90,7 +104,9 @@ export default function App() {
       </div>
       {/* Body */}
       <div className="flex flex-col items-center p-4 pt-0 bg-gray-200 h-[calc(100vh-64px)]">
-        <h2 className="my-2 text-3xl">{startDate} - {endDate}</h2>
+        <h2 className="my-2 text-3xl">
+          {startDate} - {endDate}
+        </h2>
         <h2 className="my-2 text-3xl">Total Deliveries: {numDeliveries}</h2>
         <div className="w-3/4 h-[65vh] bg-white rounded-2xl shadow-lg flex justify-center items-center space-x-10">
           {/* Left arrow button */}
