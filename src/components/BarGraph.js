@@ -10,7 +10,6 @@ const formatWeek = async (inputDate, resp) => {
   }
 
   const deliveries = resp;
-  console.log("Deliveries", deliveries);
 
   const date = new Date(inputDate);
   date.setHours(0, 0, 0, 0);
@@ -27,7 +26,6 @@ const formatWeek = async (inputDate, resp) => {
     deliveryDate.setHours(0, 0, 0, 0);
 
     if (deliveryDate >= dateSunday && deliveryDate <= dateSaturday) {
-      console.log("Day: " + delivery.date, delivery.name);
       const dayNumber = deliveryDate.getDay();
       weeklyEventCount[dayNumber] += 1;
     }
@@ -48,7 +46,6 @@ const formatWeek = async (inputDate, resp) => {
 };
 
 export default function BarGraph({ day, response }) {
-  console.log("BarGraph response", response);
   const [data, setData] = useState([
     {
       label: "Deliveries",

@@ -2,8 +2,10 @@ import Logo from "./images/Logo.png";
 import BarGraph from "./components/BarGraph";
 import CompanyCard from "./components/CompanyCard";
 import { useState, useEffect } from "react";
+import DayInfo from "./components/DayInfo";
 
 const test_id = "65c26685a0055c6f9938cd31";
+const testDay = new Date("2024-03-25");
 
 export default function App() {
   const [day, setDay] = useState(null);
@@ -15,7 +17,6 @@ export default function App() {
   const [numDeliveries, setNumDeliveries] = useState(0);
 
   useEffect(() => {
-    const testDay = new Date("2024-03-26");
     setDay(testDay);
     if (!response) {
       loadApiData(test_id);
@@ -40,7 +41,7 @@ export default function App() {
       .then((response) => response.json())
       .then((data) => {
         setResponse(data);
-        console.log("Fetched response", data);
+        console.log("Fetched response from API", data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -54,8 +55,6 @@ export default function App() {
     dateSunday.setDate(date.getDate() - date.getDay());
     const dateSaturday = new Date(dateSunday);
     dateSaturday.setDate(dateSunday.getDate() + 6);
-    console.log("Sunday", dateSunday);
-    console.log("Saturday", dateSaturday);
     setRawSunday(dateSunday);
     setRawSaturday(dateSaturday);
     const formattedSunday =
@@ -88,7 +87,6 @@ export default function App() {
 
       if (deliveryDate >= rawSunday && deliveryDate <= rawSaturday) {
         count += 1;
-        console.log("Found one! Count: " + count);
       }
     });
     setNumDeliveries(count);
@@ -115,8 +113,8 @@ export default function App() {
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="3"
-            stroke="currentColor"
-            class="w-6 h-6"
+            className="stroke-gray-500 w-6 h-6 cursor-pointer"
+            onClick={() => {}}
           >
             <path
               stroke-linecap="round"
@@ -134,8 +132,8 @@ export default function App() {
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="3"
-            stroke="currentColor"
-            class="w-6 h-6"
+            className="stroke-gray-500 w-6 h-6 cursor-pointer"
+            onClick={() => {}}
           >
             <path
               stroke-linecap="round"
@@ -145,43 +143,7 @@ export default function App() {
           </svg>
         </div>
 
-        <div className="flex flex-wrap justify-center w-3/4 h-[35vh] overflow-auto bg-white rounded-2xl shadow-lg mt-4 pt-1">
-          <CompanyCard
-            name="Company Name"
-            time="12:30 PM - 1:30 PM"
-            info="Info about the delivery."
-          />
-          <CompanyCard
-            name="Company Name"
-            time="12:30 PM - 1:30 PM"
-            info="Info about the delivery."
-          />
-          <CompanyCard
-            name="Company Name"
-            time="12:30 PM - 1:30 PM"
-            info="Info about the delivery."
-          />
-          <CompanyCard
-            name="Company Name"
-            time="12:30 PM - 1:30 PM"
-            info="Info about the delivery."
-          />
-          <CompanyCard
-            name="Company Name"
-            time="12:30 PM - 1:30 PM"
-            info="Info about the delivery."
-          />
-          <CompanyCard
-            name="Company Name"
-            time="12:30 PM - 1:30 PM"
-            info="Info about the delivery."
-          />
-          <CompanyCard
-            name="Company Name"
-            time="12:30 PM - 1:30 PM"
-            info="Info about the delivery."
-          />
-        </div>
+        <DayInfo response={response} day={day} />
       </div>
     </div>
   );
