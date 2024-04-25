@@ -114,7 +114,6 @@ export default function App() {
             viewBox="0 0 24 24"
             stroke-width="3"
             className="stroke-gray-500 w-6 h-6 cursor-pointer"
-            class="w-6 h-6"
             onClick={() => {}}
           >
             <path
@@ -134,7 +133,6 @@ export default function App() {
             viewBox="0 0 24 24"
             stroke-width="3"
             className="stroke-gray-500 w-6 h-6 cursor-pointer"
-            class="w-6 h-6"
             onClick={() => {}}
           >
             <path
