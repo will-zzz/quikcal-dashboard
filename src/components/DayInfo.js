@@ -19,7 +19,7 @@ const DayInfo = ({ response, day }) => {
   }, [day]);
 
   return (
-    <div className="flex flex-row w-3/4 h-[35vh] overflow-auto bg-white mt-4 px-2 rounded-2xl shadow-lg pt-2">
+    <div className="flex flex-row w-full h-[35vh] overflow-auto bg-white mt-4 px-2 rounded-2xl shadow-lg pt-2">
       <div className="flex flex-col justify-start w-2/3 overflow-auto mr-2">
         <h2 className="text-3xl text-center">{weekDay}</h2>
         {/* Map company cards whose date is current day */}
@@ -41,7 +41,7 @@ const DayInfo = ({ response, day }) => {
             return null;
           })}
       </div>
-      <div className="flex flex-col w-1/3 bg-gray-200 mb-2 rounded-xl text-center justify-center space-y-10 text-2xl">
+      <div className="flex flex-col w-1/3 overflow-auto bg-gray-200 mb-2 rounded-xl text-center justify-center space-y-10 text-2xl">
         <p>Deliveries: 4</p>
         <p>Delivered: 0</p>
         <p>To-be Delivered: 4</p>
