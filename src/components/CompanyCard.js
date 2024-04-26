@@ -31,14 +31,14 @@ const CompanyCard = ({ key, name, start, end, info }) => {
             className="w-6 h-6 cursor-pointer stroke-gray-500"
             onClick={() => toggleDropdown()}
           >
-            {!dropdownOpen && (
+            {dropdownOpen && (
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 d="m4.5 15.75 7.5-7.5 7.5 7.5"
               />
             )}
-            {dropdownOpen && (
+            {!dropdownOpen && (
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
