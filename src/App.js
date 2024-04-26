@@ -104,11 +104,7 @@ export default function App() {
       {/* Body */}
       <div className="flex flex-row bg-gray-200">
         {/* Graph & Daily Stats */}
-        <div className="flex flex-col items-center p-4 pt-0 h-[calc(100vh-64px)] w-3/4">
-          <h2 className="my-2 text-3xl">
-            {startDate} - {endDate}
-          </h2>
-          <h2 className="my-2 text-3xl">Total Deliveries: {numDeliveries}</h2>
+        <div className="flex flex-col items-center p-4 h-[calc(100vh-64px)] w-3/4">
           <div className="w-full h-[65vh] bg-white rounded-2xl shadow-lg flex justify-center items-center space-x-10">
             {/* Left arrow button */}
             <svg
@@ -149,7 +145,10 @@ export default function App() {
           <DayInfo response={response} day={day} />
         </div>
         {/* Weekly Stats */}
-        <WeekInfo response={response} day={day} />
+        <WeekInfo
+          date={`${startDate} - ${endDate}`}
+          deliveries={numDeliveries}
+        />
       </div>
     </div>
   );
