@@ -26,6 +26,7 @@ export default function App() {
     getNumDeliveries();
   }, [response]);
 
+  // Turn this into variables
   const loadApiData = async (projectId) => {
     const url = "http://quikcal.com:3002/events/list";
     const data = {
