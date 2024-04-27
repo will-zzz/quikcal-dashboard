@@ -87,6 +87,14 @@ export default function App() {
     setDay(new Date(day.setDate(day.getDate() + 7)));
   };
 
+  const moveToNextDay = () => {
+    setDay(new Date(day.setDate(day.getDate() + 1)));
+  };
+
+  const moveToPreviousDay = () => {
+    setDay(new Date(day.setDate(day.getDate() - 1)));
+  };
+
   return (
     <div>
       <div className="flex flex-row items-center p-2">
@@ -128,7 +136,12 @@ export default function App() {
               />
             </svg>
           </div>
-          <DayInfo response={response} day={day} />
+          <DayInfo
+            response={response}
+            day={day}
+            nextDay={() => moveToNextDay()}
+            previousDay={() => moveToPreviousDay()}
+          />
         </div>
         <WeekInfo
           date={`${startDate} - ${endDate}`}
