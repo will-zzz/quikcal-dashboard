@@ -41,17 +41,35 @@ export default function App() {
     }
   };
 
+  // const setDates = (inputDate) => {
+  //   const date = new Date(inputDate);
+  //   const dateSunday = new Date(date.setDate(date.getDate() - date.getDay()));
+  //   const dateSaturday = new Date(dateSunday.setDate(dateSunday.getDate() + 6));
+
+  //   setRawSunday(dateSunday);
+  //   setRawSaturday(dateSaturday);
+
+  //   setStartDate(formatDate(dateSunday));
+  //   setEndDate(formatDate(dateSaturday));
+  // };
+
   const setDates = (inputDate) => {
-    const date = new Date(inputDate);
-    const dateSunday = new Date(date.setDate(date.getDate() - date.getDay()));
-    const dateSaturday = new Date(dateSunday.setDate(dateSunday.getDate() + 6));
-
-    setRawSunday(dateSunday);
-    setRawSaturday(dateSaturday);
-
-    setStartDate(formatDate(dateSunday));
-    setEndDate(formatDate(dateSaturday));
+    const baseDate = new Date(inputDate);  // Use a new base date to avoid modifying the original date
+    baseDate.setHours(0, 0, 0, 0);  // Normalize time part
+  
+    const startOfWeek = new Date(baseDate);
+    startOfWeek.setDate(baseDate.getDate() - baseDate.getDay());  // Set to Sunday
+  
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);  // Set to Saturday
+  
+    setRawSunday(startOfWeek);
+    setRawSaturday(endOfWeek);
+  
+    setStartDate(formatDate(startOfWeek));
+    setEndDate(formatDate(endOfWeek));
   };
+  
 
   const formatDate = (date) => {
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
