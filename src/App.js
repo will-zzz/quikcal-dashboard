@@ -76,16 +76,23 @@ export default function App() {
   };
 
   const getNumDeliveries = () => {
-    if (!response) return;
-    const count = response.reduce((acc, delivery) => {
-      const deliveryDate = new Date(`${delivery.date}T${delivery.start}`);
+    let count = 0;
+    if (!response) {
+      return;
+    }
+    response.forEach((delivery) => {
+      const deliveryDate = new Date(delivery.date + "T" + delivery.start);
+      deliveryDate.setHours(0, 0, 0, 0);
+
       if (deliveryDate >= rawSunday && deliveryDate <= rawSaturday) {
-        return acc + 1;
+        count += 1;
       }
-      return acc;
-    }, 0);
+    });
     setNumDeliveries(count);
+    return;
   };
+
+  
 
   const moveToPreviousWeek = () => {
     setDay(new Date(day.setDate(day.getDate() - 7)));
