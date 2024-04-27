@@ -8,7 +8,7 @@ import WeekInfo from "./components/WeekInfo";
 const test_id = "65c26685a0055c6f9938cd31";
 
 export default function App() {
-  const [day, setDay] = useState(new Date("2024-03-25"));  // Use state directly for day
+  const [day, setDay] = useState(new Date("2024-03-25")); // Use state directly for day
   const [response, setResponse] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -22,7 +22,7 @@ export default function App() {
     }
     setDates(day);
     getNumDeliveries();
-  }, [day, response]);  // Dependency on day to reload when day changes
+  }, [day, response]);
 
   const loadApiData = async (projectId) => {
     const url = "http://quikcal.com:3002/events/list";
@@ -41,35 +41,22 @@ export default function App() {
     }
   };
 
-  // const setDates = (inputDate) => {
-  //   const date = new Date(inputDate);
-  //   const dateSunday = new Date(date.setDate(date.getDate() - date.getDay()));
-  //   const dateSaturday = new Date(dateSunday.setDate(dateSunday.getDate() + 6));
-
-  //   setRawSunday(dateSunday);
-  //   setRawSaturday(dateSaturday);
-
-  //   setStartDate(formatDate(dateSunday));
-  //   setEndDate(formatDate(dateSaturday));
-  // };
-
   const setDates = (inputDate) => {
-    const baseDate = new Date(inputDate);  // Use a new base date to avoid modifying the original date
-    baseDate.setHours(0, 0, 0, 0);  // Normalize time part
-  
+    const baseDate = new Date(inputDate);
+    baseDate.setHours(0, 0, 0, 0);
+
     const startOfWeek = new Date(baseDate);
-    startOfWeek.setDate(baseDate.getDate() - baseDate.getDay());  // Set to Sunday
-  
+    startOfWeek.setDate(baseDate.getDate() - baseDate.getDay());
+
     const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);  // Set to Saturday
-  
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
     setRawSunday(startOfWeek);
     setRawSaturday(endOfWeek);
-  
+
     setStartDate(formatDate(startOfWeek));
     setEndDate(formatDate(endOfWeek));
   };
-  
 
   const formatDate = (date) => {
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
@@ -92,8 +79,6 @@ export default function App() {
     return;
   };
 
-  
-
   const moveToPreviousWeek = () => {
     setDay(new Date(day.setDate(day.getDate() - 7)));
   };
@@ -111,21 +96,45 @@ export default function App() {
       <div className="flex flex-row bg-gray-200">
         <div className="flex flex-col items-center p-4 h-[calc(100vh-64px)] w-3/4">
           <div className="w-full h-[65vh] bg-white rounded-2xl shadow-lg flex justify-center items-center space-x-10">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" className="stroke-gray-500 w-6 h-6 cursor-pointer" onClick={moveToPreviousWeek}>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="3"
+              className="stroke-gray-500 w-6 h-6 cursor-pointer"
+              onClick={moveToPreviousWeek}
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 19.5 8.25 12l7.5-7.5"
+              />
             </svg>
             <div style={{ height: "95%", width: "85%" }}>
               <BarGraph day={day} response={response} />
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" className="stroke-gray-500 w-6 h-6 cursor-pointer" onClick={moveToNextWeek}>
-              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="3"
+              className="stroke-gray-500 w-6 h-6 cursor-pointer"
+              onClick={moveToNextWeek}
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m8.25 4.5 7.5 7.5-7.5 7.5"
+              />
             </svg>
           </div>
           <DayInfo response={response} day={day} />
         </div>
-        <WeekInfo date={`${startDate} - ${endDate}`} deliveries={numDeliveries} />
+        <WeekInfo
+          date={`${startDate} - ${endDate}`}
+          deliveries={numDeliveries}
+        />
       </div>
     </div>
   );
 }
-

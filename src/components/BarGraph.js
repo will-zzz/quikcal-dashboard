@@ -2,9 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Chart } from "react-charts";
 
-const testDay = new Date("2024-03-26");
-
-const formatWeek = async (inputDate, resp) => {
+const formatData = async (inputDate, resp) => {
   if (!resp) {
     return [];
   }
@@ -63,8 +61,7 @@ export default function BarGraph({ day, response }) {
       return;
     }
     const fetchData = async () => {
-      // const data = await getData(new Date());
-      const data = await formatWeek(testDay, response);
+      const data = await formatData(day, response);
       const formattedData = [
         {
           label: "Deliveries",
@@ -103,7 +100,7 @@ export default function BarGraph({ day, response }) {
       setData(formattedData);
     };
     fetchData();
-  }, [response]);
+  }, [day, response]);
 
   const primaryAxis = React.useMemo(
     () => ({
@@ -122,21 +119,29 @@ export default function BarGraph({ day, response }) {
   );
 
   return (
-   // <div>
-   <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-  <h1 style={{ textAlign: 'center', margin: 10, fontSize: '2.0em', fontWeight: 'bold' }}>Weekly Delivery Chart</h1>
-  <div style={{ flex: 1 }}> {/* This div takes up the remaining space */}
-
-    <Chart
-      options={{
-        data,
-        primaryAxis,
-        secondaryAxes,
-        primaryCursor: false,
-        secondaryCursor: false,
-      }}
-    />
-  </div>
-</div>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <h1
+        style={{
+          textAlign: "center",
+          margin: 10,
+          fontSize: "2.0em",
+          fontWeight: "bold",
+        }}
+      >
+        Weekly Delivery Chart
+      </h1>
+      <div style={{ flex: 1 }}>
+        {" "}
+        <Chart
+          options={{
+            data,
+            primaryAxis,
+            secondaryAxes,
+            primaryCursor: false,
+            secondaryCursor: false,
+          }}
+        />
+      </div>
+    </div>
   );
 }
