@@ -3,6 +3,7 @@ import BarGraph from "./components/BarGraph";
 import CompanyCard from "./components/CompanyCard";
 import { useState, useEffect } from "react";
 import DayInfo from "./components/DayInfo";
+import WeekInfo from "./components/WeekInfo";
 
 const test_id = "65c26685a0055c6f9938cd31";
 const testDay = new Date("2024-03-25");
@@ -25,6 +26,7 @@ export default function App() {
     getNumDeliveries();
   }, [response]);
 
+  // Turn this into variables
   const loadApiData = async (projectId) => {
     const url = "http://quikcal.com:3002/events/list";
     const data = {
@@ -101,49 +103,53 @@ export default function App() {
         <h1 className="text-2xl font-bold ml-4">QuikCal Dashboard</h1>
       </div>
       {/* Body */}
-      <div className="flex flex-col items-center p-4 pt-0 bg-gray-200 h-[calc(100vh-64px)]">
-        <h2 className="my-2 text-3xl">
-          {startDate} - {endDate}
-        </h2>
-        <h2 className="my-2 text-3xl">Total Deliveries: {numDeliveries}</h2>
-        <div className="w-3/4 h-[65vh] bg-white rounded-2xl shadow-lg flex justify-center items-center space-x-10">
-          {/* Left arrow button */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="3"
-            className="stroke-gray-500 w-6 h-6 cursor-pointer"
-            onClick={() => {}}
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15.75 19.5 8.25 12l7.5-7.5"
-            />
-          </svg>
-          {/* Using this weird styling here because idk the graph library is being weird */}
-          <div style={{ height: "95%", width: "85%" }}>
-            <BarGraph day={day} response={response} />
+      <div className="flex flex-row bg-gray-200">
+        {/* Graph & Daily Stats */}
+        <div className="flex flex-col items-center p-4 h-[calc(100vh-64px)] w-3/4">
+          <div className="w-full h-[65vh] bg-white rounded-2xl shadow-lg flex justify-center items-center space-x-10">
+            {/* Left arrow button */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="3"
+              className="stroke-gray-500 w-6 h-6 cursor-pointer"
+              onClick={() => {}}
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 19.5 8.25 12l7.5-7.5"
+              />
+            </svg>
+            {/* Graph */}
+            <div style={{ height: "95%", width: "85%" }}>
+              <BarGraph day={day} response={response} />
+            </div>
+            {/* Right arrow button */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="3"
+              className="stroke-gray-500 w-6 h-6 cursor-pointer"
+              onClick={() => {}}
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m8.25 4.5 7.5 7.5-7.5 7.5"
+              />
+            </svg>
           </div>
-          {/* Right arrow button */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="3"
-            className="stroke-gray-500 w-6 h-6 cursor-pointer"
-            onClick={() => {}}
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="m8.25 4.5 7.5 7.5-7.5 7.5"
-            />
-          </svg>
-        </div>
 
-        <DayInfo response={response} day={day} />
+          <DayInfo response={response} day={day} />
+        </div>
+        {/* Weekly Stats */}
+        <WeekInfo
+          date={`${startDate} - ${endDate}`}
+          deliveries={numDeliveries}
+        />
       </div>
     </div>
   );
