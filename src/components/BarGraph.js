@@ -1,10 +1,14 @@
+/*
+ * Uses react-charts to create a bar graph of the weekly deliveries
+ */
+
 import React from "react";
 import { useState } from "react";
 import { Chart } from "react-charts";
 
-const testDay = new Date("2024-03-26");
-
-const formatWeek = async (inputDate, resp) => {
+// Formats data for the bar graph
+// Returns array of objects with day of week and total deliveries
+const formatData = async (inputDate, resp) => {
   if (!resp) {
     return [];
   }
@@ -58,13 +62,13 @@ export default function BarGraph({ day, response }) {
     },
   ]);
 
+  // Runs when component mounts and every time day and response changes
   React.useEffect(() => {
     if (!response) {
       return;
     }
     const fetchData = async () => {
-      // const data = await getData(new Date());
-      const data = await formatWeek(testDay, response);
+      const data = await formatData(day, response);
       const formattedData = [
         {
           label: "Deliveries",
@@ -103,8 +107,9 @@ export default function BarGraph({ day, response }) {
       setData(formattedData);
     };
     fetchData();
-  }, [response]);
+  }, [day, response]);
 
+  // Below is just react-charts stuff. Check docs for more info
   const primaryAxis = React.useMemo(
     () => ({
       getValue: (datum) => datum.day,
@@ -122,15 +127,29 @@ export default function BarGraph({ day, response }) {
   );
 
   return (
-    <Chart
-      options={{
-        data,
-        primaryAxis,
-        secondaryAxes,
-        primaryCursor: false,
-        secondaryCursor: false,
-      }}
-    />
-    // <></>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <h1
+        style={{
+          textAlign: "center",
+          margin: 10,
+          fontSize: "2.0em",
+          fontWeight: "bold",
+        }}
+      >
+        Weekly Delivery Chart
+      </h1>
+      <div style={{ flex: 1 }}>
+        {" "}
+        <Chart
+          options={{
+            data,
+            primaryAxis,
+            secondaryAxes,
+            primaryCursor: false,
+            secondaryCursor: false,
+          }}
+        />
+      </div>
+    </div>
   );
 }

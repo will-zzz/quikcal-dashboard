@@ -1,3 +1,7 @@
+/*
+ * Main component that renders the entire application
+ */
+
 import Logo from "./images/Logo.png";
 import BarGraph from "./components/BarGraph";
 import CompanyCard from "./components/CompanyCard";
@@ -6,10 +10,10 @@ import DayInfo from "./components/DayInfo";
 import WeekInfo from "./components/WeekInfo";
 
 const test_id = "65c26685a0055c6f9938cd31";
-const testDay = new Date("2024-03-25");
 
 export default function App() {
-  const [day, setDay] = useState(null);
+  // When going into production, change to new Date(). This will get the current date.
+  const [day, setDay] = useState(new Date("2024-03-25"));
   const [response, setResponse] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -17,67 +21,65 @@ export default function App() {
   const [rawSaturday, setRawSaturday] = useState(null);
   const [numDeliveries, setNumDeliveries] = useState(0);
 
+  // Calls API to get data and calls day-setting function
+  // Runs when component mounts and every time day or response changes
   useEffect(() => {
-    setDay(testDay);
     if (!response) {
-      loadApiData(test_id);
+      loadApiData("http://quikcal.com:3002", "events", test_id);
     }
-    setDates(testDay);
-    getNumDeliveries();
-  }, [response]);
+    setDates(day);
+  }, [day, response]);
 
-  // Turn this into variables
-  const loadApiData = async (projectId) => {
-    const url = "http://quikcal.com:3002/events/list";
-    const data = {
-      projectId: projectId,
-    };
+  // Sets # of deliveries
+  // Runs when component mounts and every time endDate changes
+  useEffect(() => {
+    if (startDate && endDate) {
+      getNumDeliveries();
+    }
+  }, [endDate]);
 
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setResponse(data);
-        console.log("Fetched response from API", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+  // Fetches ALL data from API
+  const loadApiData = async (site, dir, projectId) => {
+    const url = `${site}/${dir}/list`;
+    const data = { projectId };
+    try {
+      const resp = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
+      const json = await resp.json();
+      setResponse(json);
+      console.log("Fetched response from API", json);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
+  // Sets start and end dates of the week
   const setDates = (inputDate) => {
-    const date = new Date(inputDate);
-    date.setHours(0, 0, 0, 0);
-    const dateSunday = new Date(date);
-    dateSunday.setDate(date.getDate() - date.getDay());
-    const dateSaturday = new Date(dateSunday);
-    dateSaturday.setDate(dateSunday.getDate() + 6);
-    setRawSunday(dateSunday);
-    setRawSaturday(dateSaturday);
-    const formattedSunday =
-      dateSunday.getMonth() +
-      1 +
-      "/" +
-      dateSunday.getDate() +
-      "/" +
-      dateSunday.getFullYear();
-    const formattedSaturday =
-      dateSaturday.getMonth() +
-      1 +
-      "/" +
-      dateSaturday.getDate() +
-      "/" +
-      dateSaturday.getFullYear();
-    setStartDate(formattedSunday);
-    setEndDate(formattedSaturday);
-    return;
+    const baseDate = new Date(inputDate);
+    baseDate.setHours(0, 0, 0, 0);
+
+    const startOfWeek = new Date(baseDate);
+    startOfWeek.setDate(baseDate.getDate() - baseDate.getDay());
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+    setRawSunday(startOfWeek);
+    setRawSaturday(endOfWeek);
+
+    setStartDate(formatDate(startOfWeek));
+    setEndDate(formatDate(endOfWeek));
   };
 
+  // Formats date to MM/DD/YYYY
+  const formatDate = (date) => {
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  };
+
+  // Gets number of deliveries in a week
   const getNumDeliveries = () => {
     let count = 0;
     if (!response) {
@@ -92,29 +94,42 @@ export default function App() {
       }
     });
     setNumDeliveries(count);
-    return;
+  };
+
+  // These functions are for arrows to move between days and weeks
+  const moveToPreviousWeek = () => {
+    setDay(new Date(day.setDate(day.getDate() - 7)));
+  };
+
+  const moveToNextWeek = () => {
+    setDay(new Date(day.setDate(day.getDate() + 7)));
+  };
+
+  const moveToNextDay = () => {
+    setDay(new Date(day.setDate(day.getDate() + 1)));
+  };
+
+  const moveToPreviousDay = () => {
+    setDay(new Date(day.setDate(day.getDate() - 1)));
   };
 
   return (
     <div>
-      {/* Navbar: Logo and title */}
       <div className="flex flex-row items-center p-2">
         <img src={Logo} alt="logo" className="h-12" />
         <h1 className="text-2xl font-bold ml-4">QuikCal Dashboard</h1>
       </div>
-      {/* Body */}
       <div className="flex flex-row bg-gray-200">
-        {/* Graph & Daily Stats */}
         <div className="flex flex-col items-center p-4 h-[calc(100vh-64px)] w-3/4">
           <div className="w-full h-[65vh] bg-white rounded-2xl shadow-lg flex justify-center items-center space-x-10">
-            {/* Left arrow button */}
+            {/* Left button */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="3"
               className="stroke-gray-500 w-6 h-6 cursor-pointer"
-              onClick={() => {}}
+              onClick={moveToPreviousWeek}
             >
               <path
                 stroke-linecap="round"
@@ -122,18 +137,18 @@ export default function App() {
                 d="M15.75 19.5 8.25 12l7.5-7.5"
               />
             </svg>
-            {/* Graph */}
+            {/* Bargraph */}
             <div style={{ height: "95%", width: "85%" }}>
               <BarGraph day={day} response={response} />
             </div>
-            {/* Right arrow button */}
+            {/* Right button */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="3"
               className="stroke-gray-500 w-6 h-6 cursor-pointer"
-              onClick={() => {}}
+              onClick={moveToNextWeek}
             >
               <path
                 stroke-linecap="round"
@@ -142,10 +157,13 @@ export default function App() {
               />
             </svg>
           </div>
-
-          <DayInfo response={response} day={day} />
+          <DayInfo
+            response={response}
+            day={day}
+            nextDay={() => moveToNextDay()}
+            previousDay={() => moveToPreviousDay()}
+          />
         </div>
-        {/* Weekly Stats */}
         <WeekInfo
           date={`${startDate} - ${endDate}`}
           deliveries={numDeliveries}

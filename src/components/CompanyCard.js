@@ -1,8 +1,13 @@
+/*
+ * Single company card component
+ */
+
 import React, { useState } from "react";
 
 const CompanyCard = ({ key, name, start, end, info }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  // Changes dropdown status every time it's clicked
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -31,6 +36,7 @@ const CompanyCard = ({ key, name, start, end, info }) => {
             className="w-6 h-6 cursor-pointer stroke-gray-500"
             onClick={() => toggleDropdown()}
           >
+            {/* Conditionally render based on dropdown status */}
             {dropdownOpen && (
               <path
                 stroke-linecap="round"
@@ -48,6 +54,7 @@ const CompanyCard = ({ key, name, start, end, info }) => {
           </svg>
         </div>
       </div>
+      {/* Description */}
       {dropdownOpen && <p className="text-gray-500 text-m mx-4 mb-2">{info}</p>}
     </div>
   );
