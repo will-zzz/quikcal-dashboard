@@ -1,7 +1,13 @@
+/*
+ * Uses react-charts to create a bar graph of the weekly deliveries
+ */
+
 import React from "react";
 import { useState } from "react";
 import { Chart } from "react-charts";
 
+// Formats data for the bar graph
+// Returns array of objects with day of week and total deliveries
 const formatData = async (inputDate, resp) => {
   if (!resp) {
     return [];
@@ -56,6 +62,7 @@ export default function BarGraph({ day, response }) {
     },
   ]);
 
+  // Runs when component mounts and every time day and response changes
   React.useEffect(() => {
     if (!response) {
       return;
@@ -102,6 +109,7 @@ export default function BarGraph({ day, response }) {
     fetchData();
   }, [day, response]);
 
+  // Below is just react-charts stuff. Check docs for more info
   const primaryAxis = React.useMemo(
     () => ({
       getValue: (datum) => datum.day,

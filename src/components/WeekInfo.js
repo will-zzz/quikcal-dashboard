@@ -1,3 +1,6 @@
+/*
+ * Right component of app displaying weekly information
+ */
 import React, { useEffect, useState } from "react";
 
 const WeekInfo = ({ date, deliveries }) => {

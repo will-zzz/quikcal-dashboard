@@ -1,3 +1,7 @@
+/*
+ * Main component that renders the entire application
+ */
+
 import Logo from "./images/Logo.png";
 import BarGraph from "./components/BarGraph";
 import CompanyCard from "./components/CompanyCard";
@@ -8,7 +12,8 @@ import WeekInfo from "./components/WeekInfo";
 const test_id = "65c26685a0055c6f9938cd31";
 
 export default function App() {
-  const [day, setDay] = useState(new Date("2024-03-25")); // Use state directly for day
+  // When going into production, change to new Date(). This will get the current date.
+  const [day, setDay] = useState(new Date("2024-03-25"));
   const [response, setResponse] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -16,21 +21,26 @@ export default function App() {
   const [rawSaturday, setRawSaturday] = useState(null);
   const [numDeliveries, setNumDeliveries] = useState(0);
 
+  // Calls API to get data and calls day-setting function
+  // Runs when component mounts and every time day or response changes
   useEffect(() => {
     if (!response) {
-      loadApiData(test_id);
+      loadApiData("http://quikcal.com:3002", "events", test_id);
     }
     setDates(day);
   }, [day, response]);
 
+  // Sets # of deliveries
+  // Runs when component mounts and every time endDate changes
   useEffect(() => {
     if (startDate && endDate) {
       getNumDeliveries();
     }
   }, [endDate]);
 
-  const loadApiData = async (projectId) => {
-    const url = "http://quikcal.com:3002/events/list";
+  // Fetches ALL data from API
+  const loadApiData = async (site, dir, projectId) => {
+    const url = `${site}/${dir}/list`;
     const data = { projectId };
     try {
       const resp = await fetch(url, {
@@ -46,6 +56,7 @@ export default function App() {
     }
   };
 
+  // Sets start and end dates of the week
   const setDates = (inputDate) => {
     const baseDate = new Date(inputDate);
     baseDate.setHours(0, 0, 0, 0);
@@ -63,10 +74,12 @@ export default function App() {
     setEndDate(formatDate(endOfWeek));
   };
 
+  // Formats date to MM/DD/YYYY
   const formatDate = (date) => {
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
   };
 
+  // Gets number of deliveries in a week
   const getNumDeliveries = () => {
     let count = 0;
     if (!response) {
@@ -83,6 +96,7 @@ export default function App() {
     setNumDeliveries(count);
   };
 
+  // These functions are for arrows to move between days and weeks
   const moveToPreviousWeek = () => {
     setDay(new Date(day.setDate(day.getDate() - 7)));
   };
@@ -108,6 +122,7 @@ export default function App() {
       <div className="flex flex-row bg-gray-200">
         <div className="flex flex-col items-center p-4 h-[calc(100vh-64px)] w-3/4">
           <div className="w-full h-[65vh] bg-white rounded-2xl shadow-lg flex justify-center items-center space-x-10">
+            {/* Left button */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -122,9 +137,11 @@ export default function App() {
                 d="M15.75 19.5 8.25 12l7.5-7.5"
               />
             </svg>
+            {/* Bargraph */}
             <div style={{ height: "95%", width: "85%" }}>
               <BarGraph day={day} response={response} />
             </div>
+            {/* Right button */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
