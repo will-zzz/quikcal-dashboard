@@ -122,6 +122,11 @@ export default function BarGraph({ day, response }) {
   );
 
   return (
+   // <div>
+   <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+  <h1 style={{ textAlign: 'center', margin: 10, fontSize: '2.0em', fontWeight: 'bold' }}>Weekly Delivery Chart</h1>
+  <div style={{ flex: 1 }}> {/* This div takes up the remaining space */}
+
     <Chart
       options={{
         data,
@@ -131,6 +136,7 @@ export default function BarGraph({ day, response }) {
         secondaryCursor: false,
       }}
     />
-    // <></>
+  </div>
+</div>
   );
 }
