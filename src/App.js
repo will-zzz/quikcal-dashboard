@@ -21,8 +21,13 @@ export default function App() {
       loadApiData(test_id);
     }
     setDates(day);
-    getNumDeliveries();
   }, [day, response]);
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      getNumDeliveries();
+    }
+  }, [endDate]);
 
   const loadApiData = async (projectId) => {
     const url = "http://quikcal.com:3002/events/list";
@@ -76,7 +81,6 @@ export default function App() {
       }
     });
     setNumDeliveries(count);
-    return;
   };
 
   const moveToPreviousWeek = () => {
