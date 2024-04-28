@@ -13,7 +13,7 @@ const test_id = "65c26685a0055c6f9938cd31";
 
 export default function App() {
   // When going into production, change to new Date(). This will get the current date.
-  const [day, setDay] = useState(new Date("2024-03-25"));
+  const [day, setDay] = useState(new Date());
   const [response, setResponse] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
