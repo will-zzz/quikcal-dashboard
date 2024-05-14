@@ -12,13 +12,7 @@ import WeekInfo from "./components/WeekInfo";
 const test_id = "65c26685a0055c6f9938cd31";
 
 export default function App() {
-  // When going into production, change to new Date(). This will get the current date.
-  const today = new Date();
-  const todayString = today.toISOString().split("T")[0]; // Get today's date in "YYYY-MM-DD" format
-
   const [day, setDay] = useState(new Date());
-
-  // const [day, setDay] = useState(new Date("2024-03-25"));
   const [response, setResponse] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
