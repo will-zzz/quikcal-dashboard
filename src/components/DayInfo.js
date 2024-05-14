@@ -8,13 +8,13 @@ import CompanyCard from "./CompanyCard";
 const DayInfo = ({ response, day, nextDay, previousDay }) => {
   const [weekDay, setWeekDay] = useState("");
   const days = [
+    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
     "Saturday",
-    "Sunday",
     "",
   ];
 

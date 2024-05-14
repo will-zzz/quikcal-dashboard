@@ -14,9 +14,9 @@ const test_id = "65c26685a0055c6f9938cd31";
 export default function App() {
   // When going into production, change to new Date(). This will get the current date.
   const today = new Date();
-  const todayString = today.toISOString().split('T')[0]; // Get today's date in "YYYY-MM-DD" format
-  
-  const [day, setDay] = useState(new Date(todayString));
+  const todayString = today.toISOString().split("T")[0]; // Get today's date in "YYYY-MM-DD" format
+
+  const [day, setDay] = useState(new Date());
 
   // const [day, setDay] = useState(new Date("2024-03-25"));
   const [response, setResponse] = useState(null);
@@ -24,7 +24,7 @@ export default function App() {
   const [endDate, setEndDate] = useState("");
   const [rawSunday, setRawSunday] = useState(null);
   const [rawSaturday, setRawSaturday] = useState(null);
-  const [numDeliveries, setNumDeliveries] = useState(0);
+  const [numDeliveries, setNumDeliveries] = useState(null);
 
   // Calls API to get data and calls day-setting function
   // Runs when component mounts and every time day or response changes
@@ -33,15 +33,16 @@ export default function App() {
       loadApiData("http://quikcal.com:3002", "events", test_id);
     }
     setDates(day);
+    console.log("APP: date.getDay(): ", day.getDay(), day.toString());
   }, [day, response]);
 
   // Sets # of deliveries
-  // Runs when component mounts and every time endDate changes
+  // Runs when component mounts and every time endDate or response changes
   useEffect(() => {
     if (startDate && endDate) {
       getNumDeliveries();
     }
-  }, [endDate]);
+  }, [endDate, response]);
 
   // Fetches ALL data from API
   const loadApiData = async (site, dir, projectId) => {
