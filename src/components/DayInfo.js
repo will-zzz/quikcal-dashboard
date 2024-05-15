@@ -5,6 +5,14 @@
 import React, { useEffect, useState } from "react";
 import CompanyCard from "./CompanyCard";
 
+const isSameDay = (d1, d2) => {
+  return (
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate()
+  );
+};
+
 const DayInfo = ({ response, day, nextDay, previousDay }) => {
   const [weekDay, setWeekDay] = useState("");
   const days = [
@@ -22,6 +30,7 @@ const DayInfo = ({ response, day, nextDay, previousDay }) => {
   // Runs when component mounts and every time day changes
   useEffect(() => {
     setWeekDay(day ? days[day.getDay()] : "");
+    console.log("Today", day.getFullYear(), day.getMonth(), day.getDate());
   }, [day]);
 
   return (
@@ -64,9 +73,14 @@ const DayInfo = ({ response, day, nextDay, previousDay }) => {
         {/* Display company cards whose date is current day */}
         {response &&
           response.map((delivery) => {
-            const deliveryDate = new Date(delivery.date);
-
-            if (deliveryDate.toString() === day.toString()) {
+            const deliveryDate = new Date(delivery.date + "T" + delivery.start);
+            if (isSameDay(deliveryDate, day)) {
+              console.log(
+                "Card",
+                deliveryDate.getFullYear(),
+                deliveryDate.getMonth(),
+                deliveryDate.getDate()
+              );
               return (
                 <CompanyCard
                   key={delivery._id}

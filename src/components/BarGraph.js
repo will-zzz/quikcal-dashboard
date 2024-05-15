@@ -18,7 +18,6 @@ const formatData = async (inputDate, resp) => {
   const date = new Date(inputDate);
   const dateSunday = new Date(date);
   dateSunday.setDate(date.getDate() - date.getDay());
-  console.log("BG: date.getDay(): ", date.getDay());
 
   const dateSaturday = new Date(dateSunday);
   dateSaturday.setDate(dateSunday.getDate() + 6);

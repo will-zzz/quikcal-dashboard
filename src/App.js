@@ -27,7 +27,6 @@ export default function App() {
       loadApiData("http://quikcal.com:3002", "events", test_id);
     }
     setDates(day);
-    console.log("APP: date.getDay(): ", day.getDay(), day.toString());
   }, [day, response]);
 
   // Sets # of deliveries
