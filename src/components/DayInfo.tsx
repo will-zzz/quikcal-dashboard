@@ -3,7 +3,7 @@
  */
 
 import React, { useEffect, useState } from "react";
-import CompanyCard from "./CompanyCard";
+import CompanyCard from "./CompanyCard.tsx";
 
 const DayInfo = ({
   response,

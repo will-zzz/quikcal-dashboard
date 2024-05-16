@@ -3,12 +3,10 @@
  */
 
 import Logo from "./images/Logo.png";
-import BarGraph from "./components/BarGraph";
-import CompanyCard from "./components/CompanyCard";
+import BarGraph from "./components/BarGraph.tsx";
 import { useState, useEffect } from "react";
-import DayInfo from "./components/DayInfo";
-import WeekInfo from "./components/WeekInfo";
-import { set } from "firebase/database";
+import DayInfo from "./components/DayInfo.tsx";
+import WeekInfo from "./components/WeekInfo.tsx";
 
 const test_id = "65c26685a0055c6f9938cd31";
 
