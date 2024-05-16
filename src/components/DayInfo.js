@@ -5,15 +5,14 @@
 import React, { useEffect, useState } from "react";
 import CompanyCard from "./CompanyCard";
 
-const isSameDay = (d1, d2) => {
-  return (
-    d1.getFullYear() === d2.getFullYear() &&
-    d1.getMonth() === d2.getMonth() &&
-    d1.getDate() === d2.getDate()
-  );
-};
-
-const DayInfo = ({ response, day, nextDay, previousDay }) => {
+const DayInfo = ({
+  response,
+  day,
+  nextDay,
+  previousDay,
+  isSameDay,
+  deliveries,
+}) => {
   const [weekDay, setWeekDay] = useState("");
   const days = [
     "Sunday",
@@ -23,7 +22,6 @@ const DayInfo = ({ response, day, nextDay, previousDay }) => {
     "Thursday",
     "Friday",
     "Saturday",
-    "",
   ];
 
   // Sets the day of the week
@@ -95,10 +93,15 @@ const DayInfo = ({ response, day, nextDay, previousDay }) => {
           })}
       </div>
       {/* Hard-coded element for daily stats */}
-      <div className="flex flex-col w-1/3 overflow-auto bg-gray-200 mb-2 rounded-xl text-center justify-center space-y-10 text-2xl">
-        <p>Deliveries: 4</p>
-        <p>Delivered: 0</p>
-        <p>To-be Delivered: 4</p>
+      <div className="flex flex-col w-1/3">
+        <div className="flex flex-col p-2 overflow-auto bg-gray-200 mb-2 rounded-xl text-center justify-center space-y-2 text-2xl">
+          <p>Deliveries</p>
+          <p className="text-gray-500">{deliveries}</p>
+        </div>
+        <div className="flex flex-col p-2 overflow-auto bg-gray-200 mb-2 rounded-xl text-center justify-center space-y-2 text-2xl">
+          <p>Completed</p>
+          <p className="text-gray-500">0</p>
+        </div>
       </div>
     </div>
   );
