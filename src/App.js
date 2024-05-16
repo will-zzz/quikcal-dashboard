@@ -8,23 +8,19 @@ import CompanyCard from "./components/CompanyCard";
 import { useState, useEffect } from "react";
 import DayInfo from "./components/DayInfo";
 import WeekInfo from "./components/WeekInfo";
+import { set } from "firebase/database";
 
 const test_id = "65c26685a0055c6f9938cd31";
 
 export default function App() {
-  // When going into production, change to new Date(). This will get the current date.
-  const today = new Date();
-  const todayString = today.toISOString().split('T')[0]; // Get today's date in "YYYY-MM-DD" format
-  
-  const [day, setDay] = useState(new Date(todayString));
-
-  // const [day, setDay] = useState(new Date("2024-03-25"));
+  const [day, setDay] = useState(new Date());
   const [response, setResponse] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [rawSunday, setRawSunday] = useState(null);
   const [rawSaturday, setRawSaturday] = useState(null);
-  const [numDeliveries, setNumDeliveries] = useState(0);
+  const [numWeeklyDeliveries, setNumWeeklyDeliveries] = useState(null);
+  const [numDailyDeliveries, setNumDailyDeliveries] = useState(null);
 
   // Calls API to get data and calls day-setting function
   // Runs when component mounts and every time day or response changes
@@ -33,15 +29,16 @@ export default function App() {
       loadApiData("http://quikcal.com:3002", "events", test_id);
     }
     setDates(day);
+    getNumDailyDeliveries();
   }, [day, response]);
 
   // Sets # of deliveries
-  // Runs when component mounts and every time endDate changes
+  // Runs when component mounts and every time endDate or response changes
   useEffect(() => {
     if (startDate && endDate) {
-      getNumDeliveries();
+      getNumWeeklyDeliveries();
     }
-  }, [endDate]);
+  }, [endDate, response]);
 
   // Fetches ALL data from API
   const loadApiData = async (site, dir, projectId) => {
@@ -84,8 +81,17 @@ export default function App() {
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
   };
 
+  // Helper function to check if two dates are the same
+  const isSameDay = (d1, d2) => {
+    return (
+      d1.getFullYear() === d2.getFullYear() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getDate() === d2.getDate()
+    );
+  };
+
   // Gets number of deliveries in a week
-  const getNumDeliveries = () => {
+  const getNumWeeklyDeliveries = () => {
     let count = 0;
     if (!response) {
       return;
@@ -98,7 +104,24 @@ export default function App() {
         count += 1;
       }
     });
-    setNumDeliveries(count);
+    setNumWeeklyDeliveries(count);
+  };
+
+  // Gets number of deliveries in a day
+  const getNumDailyDeliveries = () => {
+    let count = 0;
+    if (!response) {
+      return;
+    }
+    response.forEach((delivery) => {
+      const deliveryDate = new Date(delivery.date + "T" + delivery.start);
+      deliveryDate.setHours(0, 0, 0, 0);
+
+      if (isSameDay(deliveryDate, day)) {
+        count += 1;
+      }
+    });
+    setNumDailyDeliveries(count);
   };
 
   // These functions are for arrows to move between days and weeks
@@ -167,11 +190,13 @@ export default function App() {
             day={day}
             nextDay={() => moveToNextDay()}
             previousDay={() => moveToPreviousDay()}
+            isSameDay={isSameDay}
+            deliveries={numDailyDeliveries}
           />
         </div>
         <WeekInfo
           date={`${startDate} - ${endDate}`}
-          deliveries={numDeliveries}
+          deliveries={numWeeklyDeliveries}
         />
       </div>
     </div>

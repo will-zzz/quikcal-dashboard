@@ -5,23 +5,30 @@
 import React, { useEffect, useState } from "react";
 import CompanyCard from "./CompanyCard";
 
-const DayInfo = ({ response, day, nextDay, previousDay }) => {
+const DayInfo = ({
+  response,
+  day,
+  nextDay,
+  previousDay,
+  isSameDay,
+  deliveries,
+}) => {
   const [weekDay, setWeekDay] = useState("");
   const days = [
+    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
     "Saturday",
-    "Sunday",
-    "",
   ];
 
   // Sets the day of the week
   // Runs when component mounts and every time day changes
   useEffect(() => {
     setWeekDay(day ? days[day.getDay()] : "");
+    console.log("Today", day.getFullYear(), day.getMonth(), day.getDate());
   }, [day]);
 
   return (
@@ -64,9 +71,14 @@ const DayInfo = ({ response, day, nextDay, previousDay }) => {
         {/* Display company cards whose date is current day */}
         {response &&
           response.map((delivery) => {
-            const deliveryDate = new Date(delivery.date);
-
-            if (deliveryDate.toString() === day.toString()) {
+            const deliveryDate = new Date(delivery.date + "T" + delivery.start);
+            if (isSameDay(deliveryDate, day)) {
+              console.log(
+                "Card",
+                deliveryDate.getFullYear(),
+                deliveryDate.getMonth(),
+                deliveryDate.getDate()
+              );
               return (
                 <CompanyCard
                   key={delivery._id}
@@ -81,10 +93,15 @@ const DayInfo = ({ response, day, nextDay, previousDay }) => {
           })}
       </div>
       {/* Hard-coded element for daily stats */}
-      <div className="flex flex-col w-1/3 overflow-auto bg-gray-200 mb-2 rounded-xl text-center justify-center space-y-10 text-2xl">
-        <p>Deliveries: 4</p>
-        <p>Delivered: 0</p>
-        <p>To-be Delivered: 4</p>
+      <div className="flex flex-col w-1/3">
+        <div className="flex flex-col p-2 overflow-auto bg-gray-200 mb-2 rounded-xl text-center justify-center space-y-2 text-2xl">
+          <p>Deliveries</p>
+          <p className="text-gray-500">{deliveries}</p>
+        </div>
+        <div className="flex flex-col p-2 overflow-auto bg-gray-200 mb-2 rounded-xl text-center justify-center space-y-2 text-2xl">
+          <p>Completed</p>
+          <p className="text-gray-500">0</p>
+        </div>
       </div>
     </div>
   );

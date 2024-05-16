@@ -16,7 +16,6 @@ const formatData = async (inputDate, resp) => {
   const deliveries = resp;
 
   const date = new Date(inputDate);
-  date.setHours(0, 0, 0, 0);
   const dateSunday = new Date(date);
   dateSunday.setDate(date.getDate() - date.getDay());
 

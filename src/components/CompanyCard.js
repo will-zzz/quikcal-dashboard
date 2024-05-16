@@ -22,11 +22,11 @@ const CompanyCard = ({ key, name, start, end, info }) => {
           </p>
         </div>
         <div className="flex items-center">
-          <p className="text-m font-bold pl-4 text-gray-500 mr-2">Completed</p>
+          {/* <p className="text-m font-bold pl-4 text-gray-500 mr-2">Completed</p>
           <button
             className="w-7 h-7 rounded-full border-2 border-gray-500 mr-2"
             onClick={() => {}}
-          ></button>
+          ></button> */}
           {/* Dropdown arrow */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
